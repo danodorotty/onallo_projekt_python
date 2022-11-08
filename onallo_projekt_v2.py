@@ -8,7 +8,7 @@ from pysat.card import *
 import time
 import datetime
 
-q=6
+q = int(input("Search for finite projective field with order q=? "))
 #dictionaryt kell csinálni
 valtozok=dict()
 k=1
