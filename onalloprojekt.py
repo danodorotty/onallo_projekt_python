@@ -6,7 +6,8 @@ import pandas as pd
 from pysat.solvers import Glucose3
 from pysat.card import *
 
-q=6
+qin=input("Rank of the finite projective field: ")
+q= int(qin)
 #dictionaryt kell csinálni
 valtozok=dict()
 k=1
@@ -77,5 +78,23 @@ for kloz in normalforma.clauses:
     
 # megoldás kiszámítása
 ssolver.solve()
-#ans=ssolver.get_model()
-#print(ans)
+ans=ssolver.get_model()
+print(ans)
+
+#csinálok egy listák listáját a megoldásból, amiben csak a nekünk releváns változók szerepelnek és csak 1-0 elemek vannak
+
+megoldaslista=[]
+for i in range(0, (q**2+q+1)**2, q**2+q+1):
+    l1=ans[i:i+q**2+q+1]
+    l2=[]
+    for elem in l1:
+        if elem>0:
+            l2=l2+[1]
+        else:
+            l2=l2+[0]
+    megoldaslista.append(l2)
+        
+#kiprintelem a megoldást mátrix alakban
+
+szepmatrix=np.array(megoldaslista)
+print(szepmatrix)

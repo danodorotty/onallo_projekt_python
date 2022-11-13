@@ -8,8 +8,9 @@ from pysat.card import *
 import time
 import datetime
 
-qin = input("Search for finite projective field with order q=? ")
-q=int(qin)
+#qin = input("Search for finite projective field with order q=? ")
+#q=int(qin)
+q=3
 #dictionaryt kell csinálni
 valtozok=dict()
 k=1
@@ -56,14 +57,33 @@ for i in range(q**2+q+1):
                     normalforma.clauses.append([-x1, -x2, -x3, -x4])
 					
 #módosítom a sorfeltételeket, miután lefixáltam néhány változó igazságértékét
-#minden sorban pontosan q-1 db 1-es legyen még a lefixáltakon kívül
+#minden sorban pontosan q-1 db 1-es legyen még a lefixáltakon kívül, ahol már tudjuk, hogy hol van a 2 egyes
 maxvaltozo=(q**2+q+1)**2
-for i in range(1, q**2+q+1, 1):
+for i in range(1, q**2+q+1, q):
     l1=[]
     for j in range(q+2, q**2+q+1, 1):
         l1=l1+[valtozok[(i,j)]]
         
     cnf=CardEnc.equals(lits=l1, bound=q-1, top_id=maxvaltozo)
+    for cl in cnf.clauses:
+        normalforma.append(cl)
+    
+    #az abselemek lista tartalmazza az eddig használt változók abszolút értékét
+    #a top_id frissítéséhez használom a maxvaltozo-t
+    abselemek=[]
+    for kloz in normalforma.clauses:
+        l2=[abs(elem) for elem in kloz]
+        abselemek=abselemek+l2
+    maxvaltozo=max(abselemek)
+    
+#minden sorban pontosan q db 1-es legyen még a lefixáltakon kívül, amely sorokban csak 1 egyes helyét ismerjük
+for i in range(1, q**2+q+1, 1):
+    l1=[]
+    for j in range(q+2, q**2+q+1, 1):
+        if (i-1)%q != 0:
+            l1=l1+[valtozok[(i,j)]]
+        
+    cnf=CardEnc.equals(lits=l1, bound=q, top_id=maxvaltozo)
     for cl in cnf.clauses:
         normalforma.append(cl)
     
