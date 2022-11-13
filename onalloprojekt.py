@@ -100,7 +100,7 @@ for kloz in normalforma.clauses:
 # megoldás kiszámítása
 ssolver.solve()
 ans=ssolver.get_model()
-print(ans)
+print(ans[:(q**2+q+1)**2])
 
 #csinálok egy listák listáját a megoldásból, amiben csak a nekünk releváns változók szerepelnek és csak 1-0 elemek vannak
 
