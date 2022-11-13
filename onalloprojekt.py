@@ -59,6 +59,27 @@ for i in range(q**2+q+1):
     maxvaltozo=max(abselemek)
 	
 #maxvaltozo
+#beleírom a plusz feltevéseket, amiket a megoldások szimmetriája miatt feltehetünk
+#az első sor első q+1 eleme 1, a többi 0
+for i in range(q+1):
+    normalforma.clauses.append([valtozok[0, i]])
+for i in range(q+1, q**2+q+1, 1):
+    normalforma.clauses.append([-valtozok[0, i]])
+    
+#az első oszlop 2. elemétől a q+1-edik oszlop utolsó eleméig felírom a feltételeket, i lesz az oszlopindex, j a sorindex
+for i in range(q+1):
+    for j in range(1, q**2+q+1, 1):
+        if (j >= i*q+1 and j<(i+1)*q+1):
+            normalforma.clauses.append([valtozok[j,i]])
+        else:
+            normalforma.clauses.append([-valtozok[j, i]])
+
+#a q+2-edik oszlop formáját is elő lehet írni
+for i in range(1, q**2+q+1, 1):
+    if i%q==1:
+        normalforma.clauses.append([valtozok[i, q+1]])
+    else:
+        normalforma.clauses.append([-valtozok[i, q+1]])
 	
 	#már csak az kell, hogy ne legyen csupa 1-es négyzet, vagyis i, k sor és j, l oszlop, hogy ij, il, kj, és kl is igaz
 for i in range(q**2+q+1):
