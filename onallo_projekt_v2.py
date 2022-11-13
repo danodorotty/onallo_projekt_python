@@ -8,7 +8,8 @@ from pysat.card import *
 import time
 import datetime
 
-q = int(input("Search for finite projective field with order q=? "))
+qin = input("Search for finite projective field with order q=? ")
+q=int(qin)
 #dictionaryt kell csinálni
 valtozok=dict()
 k=1
